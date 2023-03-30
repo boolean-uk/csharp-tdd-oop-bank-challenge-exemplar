@@ -1,4 +1,7 @@
 ﻿using Boolean.CSharp.Main;
+using Boolean.CSharp.Main.Concrete;
+using Boolean.CSharp.Main.Concrete.Accounts;
+using Boolean.CSharp.Main.Enums;
 using NUnit.Framework;
 
 namespace Boolean.CSharp.Test
@@ -6,26 +9,19 @@ namespace Boolean.CSharp.Test
     [TestFixture]
     public class CoreTests
     {
-        private Core _core;
-
-        public CoreTests()
-        {
-            _core = new Core();
-
-        }
-
+       
         [Test]
         public void TestTransaction()
         {
-            Transaction t = new Transaction();
+            BankTransaction t = new BankTransaction();
             t.Id = 1;
             t.Date = DateTime.Now;
-            t.Type = Main.Enum.TransactionType.Credit;
+            t.Type = TransactionType.Credit;
             t.Amount = 100.00M;
 
             Assert.IsTrue(t.Id == 1);
             Assert.IsNotNull(t.Date);
-            Assert.IsTrue(t.Type == Main.Enum.TransactionType.Credit);
+            Assert.IsTrue(t.Type == TransactionType.Credit);
             Assert.IsTrue(t.Amount == 100.00M);
         }
         [Test]
