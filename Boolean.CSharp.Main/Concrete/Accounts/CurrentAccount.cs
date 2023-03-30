@@ -22,7 +22,7 @@ namespace Boolean.CSharp.Main.Concrete.Accounts
         }
 
 
-       
+        public Customer Customer => _customer;
 
 
     }

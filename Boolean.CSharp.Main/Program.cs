@@ -26,8 +26,13 @@ currentAccount.WriteStatement();
 Console.WriteLine($"Account Number: {currentAccount.Id}");
 Console.WriteLine($"Balance: {currentAccount.Balance()}");
 
+OverdraftRequest request = new OverdraftRequest();
+request.Id = currentAccount.OverdraftRequests() + 1;
+request.Amount = 10000M;
+request.Status = OverdraftStatus.Pending;
+request.RequestDate = DateTime.Now;
 
-currentAccount.RequestOverdraft(1000000M);
+currentAccount.RequestOverdraft(request);
 currentAccount.ApproveOverdraft(1);
 
 currentAccount.PhoneStatements();
@@ -36,6 +41,6 @@ currentAccount.PhoneStatements();
 //create savings account
 SavingsAccount savingsAccount = new SavingsAccount(customer);
 savingsAccount.Deposit(10000000, DateTime.Now);
-
+savingsAccount.PhoneStatements();
 
 Console.ReadLine();

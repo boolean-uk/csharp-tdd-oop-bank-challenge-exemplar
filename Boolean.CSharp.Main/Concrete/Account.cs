@@ -1,4 +1,5 @@
 ﻿using Boolean.CSharp.Main.Enums;
+using Boolean.CSharp.Main.Interfaces;
 using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace Boolean.CSharp.Main.Concrete
         public void WriteStatement()
         {
             Console.WriteLine("{0,10} || {1,10} || {2,10} || {3,10} ", "Date", "Credit", "Debit", "Balance");
-            foreach (BankTransaction transaction in _transactions.OrderByDescending(t => t.Date))
+            foreach (IBankTransaction transaction in _transactions.OrderByDescending(t => t.Date))
             {
 
                 Console.WriteLine("{0,10} || {1,10} || {2,10} || {3,10} ",
@@ -49,7 +50,7 @@ namespace Boolean.CSharp.Main.Concrete
             StringBuilder sb = new StringBuilder();
             
             sb.Append($"your statement is as follows ");
-            foreach (BankTransaction transaction in _transactions.OrderByDescending(t => t.Date))
+            foreach (IBankTransaction transaction in _transactions.OrderByDescending(t => t.Date))
             {
 
                 sb.Append($"on {transaction.Date.ToShortDateString()} there was a {transaction.Type} of {transaction.Amount}");
@@ -109,13 +110,13 @@ namespace Boolean.CSharp.Main.Concrete
             decimal balance = 0;
 
 
-            foreach (BankTransaction transaction in _transactions.Where(t => t.Type==TransactionType.Credit))
+            foreach (IBankTransaction transaction in _transactions.Where(t => t.Type==TransactionType.Credit))
             {
 
                 balance += transaction.Amount;
                
             };
-            foreach (BankTransaction transaction in _transactions.Where(t => t.Type == TransactionType.Debit))
+            foreach (IBankTransaction transaction in _transactions.Where(t => t.Type == TransactionType.Debit))
             {
 
                 balance -= transaction.Amount;
@@ -126,13 +127,9 @@ namespace Boolean.CSharp.Main.Concrete
 
 
         }
-        public void RequestOverdraft(decimal amount)
+        public void RequestOverdraft(OverdraftRequest request)
         {
-            OverdraftRequest request = new OverdraftRequest();
-            request.Id = _overdraftRequests.Count + 1;
-            request.Amount = amount;
-            request.Status = OverdraftStatus.Pending;
-            request.RequestDate = DateTime.Now;
+
 
             _overdraftRequests.Add(request);
             
@@ -148,9 +145,13 @@ namespace Boolean.CSharp.Main.Concrete
 
         public decimal OverdraftAmount()
         {
-            OverdraftRequest? latestApproved = _overdraftRequests.OrderByDescending(o => o.RequestDate).Where(o => o.Status==OverdraftStatus.Approved).FirstOrDefault();
+            IOverdraftRequest? latestApproved = _overdraftRequests.OrderByDescending(o => o.RequestDate).Where(o => o.Status==OverdraftStatus.Approved).FirstOrDefault();
 
             return latestApproved==null ? 0 : latestApproved.Amount;
+        }
+        public int OverdraftRequests()
+        {
+            return _overdraftRequests.Count();
         }
     }
 }
