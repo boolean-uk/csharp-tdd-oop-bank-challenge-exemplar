@@ -63,7 +63,10 @@ Console.WriteLine($"Account Number: {currentAccount.Id}");
 Console.WriteLine($"Balance: {currentAccount.Balance()}");
 
 /********************************************************/
-currentAccount.PhoneStatements();
+SpeechProdvider speechProdvider = new SpeechProdvider();
+
+
+currentAccount.PhoneStatements(speechProdvider);
 
 /********************************************************/
 

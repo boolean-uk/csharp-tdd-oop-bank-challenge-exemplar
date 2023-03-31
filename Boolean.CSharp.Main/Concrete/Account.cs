@@ -41,9 +41,9 @@ namespace Boolean.CSharp.Main.Concrete
         /// <summary>
         /// Method to generate phrase to read from the transaction collection
         /// </summary>
-        public void PhoneStatements()
+        public void PhoneStatements(ISpeak speaker)
         {
-            SpeechSynthesizer speaker = new SpeechSynthesizer();
+        
             
             StringBuilder sb = new StringBuilder();
 
