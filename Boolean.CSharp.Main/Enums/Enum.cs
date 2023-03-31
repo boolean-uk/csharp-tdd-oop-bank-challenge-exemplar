@@ -12,6 +12,12 @@ namespace Boolean.CSharp.Main.Enums
             Credit,
             Debit
         }
+        public enum TransactionStatus
+        {
+            Pending,
+            Approved,
+            Rejected
+        }
         public enum Branches
         {
             Bournemouth,
@@ -28,5 +34,6 @@ namespace Boolean.CSharp.Main.Enums
             Approved,
             Rejected
         }
+
     
 }

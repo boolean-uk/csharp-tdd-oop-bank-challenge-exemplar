@@ -11,6 +11,7 @@ namespace Boolean.CSharp.Main.Interfaces
     {
         public int Id { get; set; }
         public TransactionType Type { get; set; }
+        public TransactionStatus Status { get; set; }
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public decimal NewBalance { get; set; }
