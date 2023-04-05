@@ -165,5 +165,39 @@ namespace Boolean.CSharp.Test
             Assert.IsTrue(savings.GetType().BaseType == typeof(Account));
 
         }
+
+        [Test]
+        public void ApproveDeclineOverdraftRequests()
+        {
+            decimal overdraftAmount = 1000000M;
+            //create pending overdraft
+            OverdraftRequest request = new OverdraftRequest()
+            {
+                RequestDate = DateTime.Now,
+                Amount = overdraftAmount,
+                Status = OverdraftStatus.Pending
+            };
+
+            //create customer
+            Customer customer = new Customer()
+            {
+                Name = "Nigel",
+                Address = "Bournemouth",
+                Id = Guid.NewGuid()
+            };
+            //create savingsAccount for customer
+            SavingsAccount savingsAccount = new SavingsAccount(customer);
+            //Request OD
+            savingsAccount.RequestOverdraft(request);
+            //Approve OD
+            savingsAccount.ApproveOverdraft(1);
+
+            Assert.AreEqual(savingsAccount.OverdraftAmount(),overdraftAmount);
+
+            //now reject overdraft
+            savingsAccount.RejectOverdraft(1);
+
+            Assert.AreEqual(savingsAccount.OverdraftAmount(), 0);
+        }
     }
 }

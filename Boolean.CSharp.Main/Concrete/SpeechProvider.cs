@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Boolean.CSharp.Main.Concrete
 {
-    public  class SpeechProdvider : ISpeak
+    public  class SpeechProvider : ISpeak
     {
         SpeechSynthesizer speaker;
 
 
-        public SpeechProdvider()
+        public SpeechProvider()
         {
-            speaker = new SpeechSynthesizer();
+            speaker = new SpeechSynthesizer(); //TODO:  find a solution for this
         }
 
         

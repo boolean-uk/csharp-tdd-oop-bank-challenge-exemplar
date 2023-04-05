@@ -141,6 +141,14 @@ namespace Boolean.CSharp.Main.Concrete
                 item.Status = OverdraftStatus.Approved;
             }
         }
+        public void RejectOverdraft(int id)
+        {
+            var item = _overdraftRequests.Where(r => r.Id == id).FirstOrDefault();
+            if (item != null)
+            {
+                item.Status = OverdraftStatus.Rejected;
+            }
+        }
         /// <summary>
         /// Gets the overdraft amount by searching the overdraft requests for the latest approved overdraft
         /// </summary>
