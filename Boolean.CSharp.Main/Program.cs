@@ -4,8 +4,7 @@ using Boolean.CSharp.Main.Concrete.Accounts;
 using Boolean.CSharp.Main.Concrete.SampleData;
 using Boolean.CSharp.Main.Enums;
 using Boolean.CSharp.Main.Interfaces;
-
-
+using Microsoft.Extensions.Configuration;
 
 
 /********************************************************/
@@ -63,10 +62,10 @@ Console.WriteLine($"Account Number: {currentAccount.Id}");
 Console.WriteLine($"Balance: {currentAccount.Balance()}");
 
 /********************************************************/
-SpeechProvider speechProdvider = new SpeechProvider();
+TwilioSMSProvider smsProvider = new TwilioSMSProvider();
 
 
-currentAccount.PhoneStatements(speechProdvider);
+currentAccount.SendStatement(smsProvider);
 
 /********************************************************/
 

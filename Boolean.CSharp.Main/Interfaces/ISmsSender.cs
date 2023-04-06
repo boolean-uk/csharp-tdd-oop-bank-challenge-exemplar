@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Boolean.CSharp.Main.Interfaces
 {
-    public interface ISpeak
+    public interface ISmsSender
     {
-        void Speak(string speech);
+        void SendSMS(string smsMessage);
     }
 }

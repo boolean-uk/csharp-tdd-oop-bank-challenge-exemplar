@@ -1,6 +1,6 @@
 ﻿using Boolean.CSharp.Main.Enums;
 using Boolean.CSharp.Main.Interfaces;
-using System.Speech.Synthesis;
+
 using System.Text;
 
 
@@ -38,25 +38,30 @@ namespace Boolean.CSharp.Main.Concrete
                         transaction.NewBalance);
             };
         }
+
+       
+
         /// <summary>
         /// Method to generate phrase to read from the transaction collection
         /// </summary>
-        public void PhoneStatements(ISpeak speaker)
+        public void SendStatement(ISmsSender provider)
         {
         
             
             StringBuilder sb = new StringBuilder();
 
-            sb.Append($"your statement is as follows ");
+            sb.Append("\n");
+
             foreach (IBankTransaction transaction in _transactions.OrderByDescending(t => t.Date).Where(t => t.Status==TransactionStatus.Approved))
             {
 
-                sb.Append($"on {transaction.Date.ToShortDateString()} there was a {transaction.Type} of {transaction.Amount}");
+                sb.Append($"{transaction.Date.ToShortDateString()} {transaction.Type} {transaction.Amount}\n");
 
 
             };
-            sb.Append($"as at {DateTime.Now.ToShortTimeString()} your balance is {this.Balance()}");
-            speaker.Speak(sb.ToString());
+            
+            sb.Append($"Balance:{this.Balance()}");
+            provider.SendSMS(sb.ToString());
             
         }
         /// <summary>
