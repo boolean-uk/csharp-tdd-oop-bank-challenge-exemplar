@@ -64,9 +64,10 @@ Console.WriteLine($"Balance: {currentAccount.Balance()}");
 
 /********************************************************/
 SpeechProvider speechProdvider = new SpeechProvider();
+TwilioSMSProvider provider = new();
+currentAccount.SendStatement(provider);
 
-
-currentAccount.PhoneStatements(speechProdvider);
+//currentAccount.PhoneStatements(speechProdvider);
 
 /********************************************************/
 

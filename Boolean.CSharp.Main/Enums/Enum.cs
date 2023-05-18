@@ -21,6 +21,7 @@ namespace Boolean.CSharp.Main.Enums
         public enum Branches
         {
             Bournemouth,
+            Athens,
             London,
             Paris,
             Cologne,

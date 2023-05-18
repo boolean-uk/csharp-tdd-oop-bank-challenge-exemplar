@@ -13,7 +13,6 @@ namespace Boolean.CSharp.Main.Concrete
         private List<OverdraftRequest> _overdraftRequests;
         
 
-        public Branches Branch { get; set; }
         
         public Account()
         {
@@ -41,6 +40,29 @@ namespace Boolean.CSharp.Main.Concrete
         /// <summary>
         /// Method to generate phrase to read from the transaction collection
         /// </summary>
+        public void SendStatement(ISmsSender provider)
+        {
+
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("\n");
+
+            foreach (IBankTransaction transaction in _transactions.OrderByDescending(t => t.Date).Where(t => t.Status == TransactionStatus.Approved))
+            {
+
+                sb.Append($"{transaction.Date.ToShortDateString()} {transaction.Type} {transaction.Amount}\n");
+
+
+            };
+
+            sb.Append($"Balance:{this.Balance()}");
+            provider.SendSMS(sb.ToString());
+
+        }
+        /// <summary>
+        /// Method to generate phrase to read from the transaction collection
+        /// </summary>
         public void PhoneStatements(ISpeak speaker)
         {
         
@@ -59,6 +81,7 @@ namespace Boolean.CSharp.Main.Concrete
             speaker.Speak(sb.ToString());
             
         }
+
         /// <summary>
         /// Method to withdrawal on a given date
         /// </summary>
@@ -95,7 +118,6 @@ namespace Boolean.CSharp.Main.Concrete
             _transactions.Add(t);
             return t.NewBalance;
         }
-
         public decimal Deposit(BankTransaction t)
         {
             t.Id = _transactions.Count + 1;
@@ -105,7 +127,6 @@ namespace Boolean.CSharp.Main.Concrete
             _transactions.Add(t);
             return t.NewBalance;
         }
-
         public decimal Balance()
         {
             decimal balance = 0;
@@ -128,6 +149,7 @@ namespace Boolean.CSharp.Main.Concrete
 
 
         }
+
         public void RequestOverdraft(OverdraftRequest request)
         {
             request.Id = _overdraftRequests.Count + 1;
@@ -149,6 +171,7 @@ namespace Boolean.CSharp.Main.Concrete
                 item.Status = OverdraftStatus.Rejected;
             }
         }
+
         /// <summary>
         /// Gets the overdraft amount by searching the overdraft requests for the latest approved overdraft
         /// </summary>
@@ -163,5 +186,7 @@ namespace Boolean.CSharp.Main.Concrete
         {
             return _overdraftRequests.Count();
         }
+        
+        public Branches Branch { get; set; }
     }
 }
